@@ -1,0 +1,109 @@
+<!-- หน้า 1: หน้าล็อกอิน --><!DOCTYPE html><html>
+<head>
+  <meta charset="UTF-8">
+  <title>เข้าสู่ระบบแก๊ง</title>
+  <style>
+    body { font-family: Arial; background: #111; color: white; text-align: center; padding-top: 50px; }
+    input { padding: 10px; margin: 5px; width: 250px; }
+    button { padding: 10px 20px; background: #1e90ff; color: white; border: none; }
+  </style>
+</head>
+<body>
+  <h1>เข้าสู่ระบบแก๊ง</h1>
+  <input type="text" placeholder="ชื่อในเกม" /><br>
+  <input type="password" placeholder="รหัสผ่าน" /><br>
+  <button onclick="login()">เข้าสู่ระบบ</button>
+  <p>ยังไม่มีบัญชี? <a href="register.html" style="color: #1e90ff;">สมัครสมาชิก</a></p>
+  <script>
+    function login() {
+      alert("เข้าสู่ระบบสำเร็จ (ตัวอย่าง)");
+      window.location.href = 'home.html';
+    }
+  </script>
+</body>
+</html><!-- หน้า 2: สมัครสมาชิก --><!DOCTYPE html><html>
+<head>
+  <meta charset="UTF-8">
+  <title>สมัครสมาชิก</title>
+  <style>
+    body { font-family: Arial; background: #222; color: white; text-align: center; padding-top: 50px; }
+    input { padding: 10px; margin: 5px; width: 250px; }
+    button { padding: 10px 20px; background: #28a745; color: white; border: none; }
+  </style>
+</head>
+<body>
+  <h1>สมัครสมาชิก</h1>
+  <input type="text" placeholder="ชื่อในเกม" /><br>
+  <input type="text" placeholder="ชื่อเล่น" /><br>
+  <input type="number" placeholder="อายุ" /><br>
+  <input type="password" placeholder="รหัสผ่าน" /><br>
+  <button onclick="register()">สมัครสมาชิก</button>
+  <p>มีบัญชีอยู่แล้ว? <a href="index.html" style="color: #28a745;">เข้าสู่ระบบ</a></p>
+  <script>
+    function register() {
+      alert("สมัครสมาชิกสำเร็จ (ตัวอย่าง)");
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html><!-- หน้า 3: หน้าหลัก --><!DOCTYPE html><html>
+<head>
+  <meta charset="UTF-8">
+  <title>หน้าหลักแก๊ง</title>
+  <style>
+    body { font-family: Arial; background: #000; color: white; text-align: center; padding: 30px; }
+    a { display: block; margin: 10px; color: #1e90ff; font-size: 20px; }
+  </style>
+</head>
+<body>
+  <h1>ยินดีต้อนรับสู่ระบบแก๊ง</h1>
+  <a href="report.html">แจ้งเรื่องเข้าร่วม / ปัญหา</a>
+  <a href="events.html">กิจกรรมและนัดชุมนุม</a>
+  <a href="members.html">ดูข้อมูลสมาชิก / รองหัวหน้า</a>
+  <a href="promote.html">ขอสอบเป็นรองหัวหน้า</a>
+  <a href="logout.html">ออกจากระบบ</a>
+</body>
+</html><!-- หน้า 4: แจ้งเรื่องและปัญหา --><!DOCTYPE html><html>
+<head>
+  <meta charset="UTF-8">
+  <title>แจ้งเรื่อง</title>
+  <style>
+    body { font-family: Arial; background: #111; color: white; padding: 30px; }
+    label, select, textarea, button { display: block; width: 100%; max-width: 400px; margin: 10px auto; }
+    button { background: #ffc107; color: black; border: none; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h2>แจ้งเรื่องเข้าร่วม / ปัญหา</h2>
+  <label>เลือกหัวข้อ:</label>
+  <select>
+    <option>ดึงคนเข้าแก๊ง</option>
+    <option>แจ้งชุมนุม</option>
+    <option>แจ้งเตะคนออก</option>
+    <option>แจ้งออกจากแก๊ง</option>
+    <option>แจ้งบัค</option>
+  </select>
+  <textarea placeholder="รายละเอียด..." rows="5"></textarea>
+  <button onclick="alert('ส่งสำเร็จ')">ส่ง</button>
+</body>
+</html><!-- หน้า 5: กิจกรรมและนัดชุมนุม --><!DOCTYPE html><html>
+<head>
+  <meta charset="UTF-8">
+  <title>กิจกรรมแก๊ง</title>
+  <style>
+    body { font-family: Arial; background: #000; color: white; padding: 30px; }
+    .event { background: #333; padding: 15px; margin: 10px 0; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <h2>กิจกรรมและนัดชุมนุม</h2>
+  <div class="event">
+    <h4>นัดรวมตัว: วันเสาร์ 20.00</h4>
+    <p>หัวหน้า: แจ้งเตือนรวมตัวที่ลานหน้าเมือง</p>
+  </div>
+  <div class="event">
+    <h4>กิจกรรม: แข่งขัน PVP แก๊ง</h4>
+    <p>รายละเอียด: รายชื่อทีมจะประกาศเร็ว ๆ นี้</p>
+  </div>
+</body>
+</html>
