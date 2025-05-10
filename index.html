@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ระบบแก๊ง</title>
+  <style>
+    body { font-family: Arial, sans-serif; color: #d63384; text-align: center; padding: 20px; background-color: #fff0f5; }
+    input, button, select, textarea { padding: 10px; margin: 10px; width: 250px; border: 1px solid #d63384; border-radius: 8px; }
+    button { background-color: #d63384; color: white; border: none; }
+    a { color: #d63384; text-decoration: none; }
+    .event { background: #ffe6f0; padding: 15px; margin: 10px 0; border-radius: 10px; }
+    #admin-menu { display: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div id="login-page">
+    <h1>เข้าสู่ระบบแก๊ง</h1>
+    <input id="login-username" type="text" placeholder="ชื่อในเกม" /><br>
+    <input id="login-password" type="password" placeholder="รหัสผ่าน" /><br>
+    <button onclick="login()">เข้าสู่ระบบ</button><br>
+    <button onclick="deleteAccount()">ลบบัญชี</button><br>
+    <p>ยังไม่มีบัญชี? <a href="#" onclick="showRegisterPage()">สมัครสมาชิก</a></p>
+  </div>
+
+  <div id="register-page" style="display: none;">
+    <h1>สมัครสมาชิก[ไม่ได้ให้ใส่รหัสในเกมแต่ขอแค่ชื่อในเกม]</h1>
+    <input id="register-username" type="text" placeholder="ชื่อในเกม" /><br>
+    <input id="register-nickname" type="text" placeholder="ชื่อเล่น" /><br>
+    <input id="register-age" type="number" placeholder="อายุ" /><br>
+    <input id="register-password" type="password" placeholder="รหัสผ่าน" /><br>
+    <button onclick="register()">สมัครสมาชิก</button>
+    <p>มีบัญชีอยู่แล้ว? <a href="#" onclick="showLoginPage()">เข้าสู่ระบบ</a></p>
+  </div>
+
+  <div id="home-page" style="display: none;">
+    <h1>ยินดีต้อนรับสู่ระบบแก๊ง</h1>
+    <a href="#" onclick="showReportPage()">แจ้งเรื่องเข้าร่วม / ปัญหา</a><br>
+    <a href="#" onclick="showEventsPage()">กิจกรรมและนัดชุมนุม</a><br>
+    <a href="#" onclick="showMembersPage()">ดูข้อมูลสมาชิก / รองหัวหน้า</a><br>
+    <a href="#" onclick="showPromotePage()">ขอสอบเป็นรองหัวหน้า</a><br>
+    <a href="#" onclick="logout()">ออกจากระบบ</a><br>
+    <button onclick="deleteAccount()">ลบบัญชี[สามารถสมัครใหม่ได้]</button><br>
+
+    <div id="admin-menu">
+      <h3>เมนูพิเศษหัวหน้าแก๊ง</h3>
+      <button onclick="showAdminPanel()">1. จัดการหน้าเว็บ</button><br>
+      <button onclick="showAccountManage()">2. จัดการบัญชีสมาชิก</button><br>
+      <button onclick="showDeputyAssign()">3. ตั้งผู้ช่วย / รองหัวหน้า</button><br>
+      <button onclick="showRequests()">4. ดูคำร้องที่รอจัดการ</button><br>
+    </div>
+  </div>
+
+  <div id="events-page" style="display: none;">
+    <h2>กิจกรรมและนัดชุมนุม</h2>
+    <div class="event">
+      <h4 id="meeting-time">นัดรวมตัว: ยังไม่มี</h4>
+      <p id="meeting-detail">หัวหน้า: แจ้งเตือนรวมตัวที่บ้านแก็ง</p>
+    <div class="event">
+     
+    </div>
+    <div id="edit-events-area"></div>
+  </div>
+
+  <div id="promote-page" style="display: none;">
+    <h1>ขอสอบเป็นรองหัวหน้า</h1>
+    <input id="promote-reason" type="text" placeholder="เหตุผล" /><br>
+    <button onclick="applyForDeputy()">ขอสอบ</button>
+  </div>
+
+  <div id="report-page" style="display: none;">
+    <h2>แจ้งเรื่องเข้าร่วม / ปัญหา</h2>
+    <label>เลือกหัวข้อ:</label>
+    <select id="issue-type">
+      <option>ดึงคนเข้าแก๊ง</option>
+      <option>แจ้งชุมนุม</option>
+      <option>แจ้งเตะคนออก</option>
+      <option>แจ้งออกจากแก๊ง</option>
+      <option>แจ้งบัค</option>
+    </select>
+    <textarea id="details" placeholder="รายละเอียด..." rows="5"></textarea>
+    <button onclick="submitReport()">ส่ง</button>
+  </div>
+
+  <script>
+    function isLeader() {
+      return localStorage.getItem("isLeader") === "true";
+    }
+
+    function showLoginPage() {
+      document.getElementById("register-page").style.display = "none";
+      document.getElementById("login-page").style.display = "block";
+    }
+
+    function showRegisterPage() {
+      document.getElementById("login-page").style.display = "none";
+      document.getElementById("register-page").style.display = "block";
+    }
+
+    function showHomePage() {
+      document.getElementById("login-page").style.display = "none";
+      document.getElementById("register-page").style.display = "none";
+      document.getElementById("home-page").style.display = "block";
+      if (isLeader()) document.getElementById("admin-menu").style.display = "block";
+    }
+
+    function showEventsPage() {
+      document.getElementById("home-page").style.display = "none";
+      document.getElementById("events-page").style.display = "block";
+      if (isLeader()) showEditEvents();
+    }
+
+    function showPromotePage() {
+      document.getElementById("home-page").style.display = "none";
+      document.getElementById("promote-page").style.display = "block";
+    }
+
+    function showReportPage() {
+      document.getElementById("home-page").style.display = "none";
+      document.getElementById("report-page").style.display = "block";
+    }
+
+    function showAdminPanel() {
+      alert("ฟีเจอร์แก้ไขหน้าหลักผ่านเว็บอยู่ระหว่างพัฒนา");
+    }
+
+    function showAccountManage() {
+      alert("ฟีเจอร์จัดการบัญชีสมาชิกอยู่ระหว่างพัฒนา");
+    }
+
+    function showDeputyAssign() {
+      alert("ฟีเจอร์ตั้งรองหัวหน้าอยู่ระหว่างพัฒนา");
+    }
+
+    function showRequests() {
+      alert("คุณมีคำขอใหม่รอการจัดการ");
+    }
+
+    function showEditEvents() {
+      const area = document.getElementById("edit-events-area");
+      area.innerHTML = `
+        <h3>แก้ไขเวลานัดชุมนุม</h3>
+        <input id="edit-meeting" type="text" placeholder="วันเวลาใหม่" />
+        <button onclick="updateMeeting()">บันทึก</button>
+      `;
+    }
+
+    function updateMeeting() {
+      const newTime = document.getElementById("edit-meeting").value;
+      document.getElementById("meeting-time").innerText = "นัดรวมตัว: " + newTime;
+      alert("อัปเดตเวลานัดชุมนุมแล้ว");
+    }
+
+    function register() {
+      const username = document.getElementById("register-username").value;
+      const password = document.getElementById("register-password").value;
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+      const isLeader = username === "God999" && password === "God999";
+      users.push({ username, password, isLeader });
+      localStorage.setItem("users", JSON.stringify(users));
+
+      alert("สมัครสมาชิกสำเร็จ");
+      showLoginPage();
+    }
+
+    function login() {
+      const username = document.getElementById("login-username").value;
+      const password = document.getElementById("login-password").value;
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      const user = users.find(u => u.username === username && u.password === password);
+
+      if (user) {
+        localStorage.setItem("isLeader", user.isLeader ? "true" : "false");
+        showHomePage();
+      } else {
+        alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("isLeader");
+      showLoginPage();
+    }
+
+    function deleteAccount() {
+      const username = document.getElementById("login-username").value;
+      const password = document.getElementById("login-password").value;
+      let users = JSON.parse(localStorage.getItem("users") || "[]");
+      users = users.filter(u => u.username !== username || u.password !== password);
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("ลบบัญชีสำเร็จ");
+      showLoginPage();
+    }
+
+    function submitReport() {
+      alert("ส่งคำร้องเรียบร้อยแล้ว");
+    }
+
+    function applyForDeputy() {
+      alert("คำขอสอบเป็นรองหัวหน้าถูกส่งแล้ว");
+    }
+  </script>
+</body>
+</html>
